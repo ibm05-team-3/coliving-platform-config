@@ -1,0 +1,8 @@
+# user-service 공통 설정
+spring:
+  application:
+    name: user-service
+
+auth:
+  access-token-key-id: es256-demo
+  access-token-issuer: user-service
