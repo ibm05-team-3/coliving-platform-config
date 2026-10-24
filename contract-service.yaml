@@ -1,0 +1,13 @@
+# contract-service 공통 설정
+spring:
+  application:
+    name: contract-service
+
+auth:
+  access-token-key-id: es256-demo        # user-service와 동일해야 검증 가능
+  access-token-issuer: user-service      # 발급자는 user-service
+
+app:
+  kafka:
+    topics:
+      payment-completed: contract.payment.completed   # kafka호출 이름 받는쪽과 맞춰야함

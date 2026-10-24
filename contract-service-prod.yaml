@@ -1,0 +1,36 @@
+# contract-service 운영 환경
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+
+app:
+  frontend:
+    url: ${FRONTEND_URL}
+  kakaopay:
+    secret-key: ${KAKAOPAY_SECRET_KEY}
+    cid: ${KAKAOPAY_CID}
+    approval-url: ${FRONTEND_URL}/payment/success
+    cancel-url: ${FRONTEND_URL}/payment/cancel
+    fail-url: ${FRONTEND_URL}/payment/fail
+  portone:
+    store-id: ${PORTONE_STORE_ID}
+    api-secret: ${PORTONE_API_SECRET}
+
+auth:
+  access-token-public: ${JWT_PUBLIC_KEY}

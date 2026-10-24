@@ -1,0 +1,36 @@
+# contract-service 개발 환경 전용
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/contract_service
+    username: postgres
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+
+app:
+  frontend:
+    url: http://localhost:5173
+  kakaopay:
+    secret-key: ${KAKAOPAY_SECRET_KEY}
+    cid: TC0ONETIME                       # 카카오페이 테스트용 가맹점 코드
+    approval-url: http://localhost:5173/payment/success
+    cancel-url: http://localhost:5173/payment/cancel
+    fail-url: http://localhost:5173/payment/fail
+  portone:
+    store-id: ${PORTONE_STORE_ID}
+    api-secret: ${PORTONE_API_SECRET}
+
+auth:
+  access-token-public: ${JWT_SECRET:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}
