@@ -16,8 +16,19 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
       acks: all
+  grpc:
+    client:
+      channel:
+        room:
+          target: ${ROOM_GRPC_TARGET}         # 예: dns:///매물서비스이름:gRPC포트
+        document:
+          target: ${DOCUMENT_GRPC_TARGET}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
 
 app:
   frontend:
@@ -25,9 +36,9 @@ app:
   kakaopay:
     secret-key: ${KAKAOPAY_SECRET_KEY}
     cid: ${KAKAOPAY_CID}
-    approval-url: ${FRONTEND_URL}/payment/success
-    cancel-url: ${FRONTEND_URL}/payment/cancel
-    fail-url: ${FRONTEND_URL}/payment/fail
+    approval-url: ${app.frontend.url}/contract/pay/approve   # 서버가 ?applicationNo=..&orderId=.. 붙임
+    cancel-url: ${app.frontend.url}/contract/pay?result=cancel
+    fail-url: ${app.frontend.url}/contract/pay?result=fail
   portone:
     store-id: ${PORTONE_STORE_ID}
     api-secret: ${PORTONE_API_SECRET}

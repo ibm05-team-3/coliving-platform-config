@@ -7,17 +7,28 @@ spring:
     password: admin
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
 
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
       acks: all
+  grpc:
+    client:
+      channel:
+        room:
+          target: localhost:8083       # ⚠ HTTP 포트가 아니라 gRPC 서버 포트인지 확인
+        document:
+          target: localhost:8082       # ⚠ 위와 같음
+  data:
+    redis:                       # 결제 중복 클릭 잠금
+      host: localhost
+      port: 6379
 
 app:
   frontend:
@@ -25,9 +36,9 @@ app:
   kakaopay:
     secret-key: ${KAKAOPAY_SECRET_KEY}
     cid: TC0ONETIME                       # 카카오페이 테스트용 가맹점 코드
-    approval-url: http://localhost:5173/payment/success
-    cancel-url: http://localhost:5173/payment/cancel
-    fail-url: http://localhost:5173/payment/fail
+    approval-url: ${app.frontend.url}/contract/pay/approve   # 서버가 ?applicationNo=..&orderId=.. 붙임
+    cancel-url: ${app.frontend.url}/contract/pay?result=cancel
+    fail-url: ${app.frontend.url}/contract/pay?result=fail
   portone:
     store-id: ${PORTONE_STORE_ID}
     api-secret: ${PORTONE_API_SECRET}
