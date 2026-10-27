@@ -1,0 +1,54 @@
+# community-service 공통 설정 (환경 상관없이 같은 값)
+# 적용 순서: application.yaml → application-dev.yaml → community-service.yaml → community-service-dev.yaml
+# ※ API 키는 이 레포에 쓰지 않기 → 환경 변수 GEMINI_API_KEY
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate          # 테이블은 db/schema-dev.sql로 생성, JPA는 검사만
+    open-in-view: false
+
+  kafka:
+    consumer:
+      group-id: community-service
+      auto-offset-reset: earliest
+
+  # FAQ 문서 업로드 최대 30MB
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 31MB
+
+  # Spring AI — Gemini + pgvector
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-3.5-flash-lite
+            temperature: 0.2
+        embedding:
+          api-key: ${GEMINI_API_KEY}
+          text:
+            model: gemini-embedding-2
+            dimensions: 768
+            task-type: RETRIEVAL_DOCUMENT
+    vectorstore:
+      pgvector:
+        table-name: faq_chunks
+        initialize-schema: false  # schema-dev.sql에서 직접 생성
+        dimensions: 768
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+
+# community-service 자체 설정
+community:
+  faq:
+    top-k: 5
+    similarity-threshold: 0.6
+    answer-cache-ttl: 10m
+    daily-call-limit: 1000
+    rate-limit:
+      guest-per-minute: 5
+      member-per-minute: 10
