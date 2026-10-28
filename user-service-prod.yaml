@@ -42,7 +42,9 @@ app:
   cookie:
     secure: true
     same-site: Strict
-    refresh-token-name: refresh_token
+    session-cookie-name: session
+    oauth-transaction-name: oauth_tx
+    oauth-transaction-max-age: 10m
 
 auth:
   access-token-public: ${JWT_PUBLIC_KEY}
