@@ -6,3 +6,4 @@ spring:
 auth:
   access-token-key-id: es256-demo
   access-token-issuer: user-service
+  access-token-refresh-skew: 15s
