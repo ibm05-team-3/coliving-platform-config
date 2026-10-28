@@ -35,3 +35,6 @@ management:
 community:
   chat:
     allowed-origins: http://localhost:5173, http://localhost:5174
+  # 비회원 연락처 암호화 키 (개발용 고정값, 운영은 환경 변수 COMMUNITY_CRYPTO_KEY)
+  crypto:
+    key: ${COMMUNITY_CRYPTO_KEY:ZGV2LW9ubHkta2V5LWRvLW5vdC11c2UtaW4tcHJvZDE=}
