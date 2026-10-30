@@ -44,6 +44,9 @@ spring:
             user-name-attribute: response
 
 app:
+  # users.email, name, phone, address Envelope Encryption KEK. 운영은 환경 변수 USER_CRYPTO_KEY
+  crypto:
+    key: ${USER_CRYPTO_KEY:ZGV2LW9ubHktdXNlci1rZXktbm90LWZvci1wcm9kISE=}
   frontend:
     url: http://localhost:5173
   cookie:
