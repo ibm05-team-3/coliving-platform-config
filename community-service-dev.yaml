@@ -1,0 +1,40 @@
+# community-service 개발(dev) 설정 — 내 PC(localhost) 접속 정보
+# eureka · rabbitmq · cloud bus 는 application-dev.yaml(공통)에 있어서 여기서는 생략
+
+spring:
+  # PostgreSQL + pgvector (coliving-pgvector 컨테이너, 5433)
+  datasource:
+    url: jdbc:postgresql://localhost:5433/community_service
+    username: postgres
+    password: admin
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    # MongoDB (채팅 메시지)
+    mongodb:
+      uri: mongodb://localhost:27017/community_service
+    # Redis (조회수 · 안 읽은 수 · 횟수 제한 · FAQ 캐시 · 제재 캐시)
+    redis:
+      host: localhost
+      port: 6379
+
+  # Kafka (계약 완료 · 입주 상태 변경 · 회원 탈퇴 수신)
+  kafka:
+    bootstrap-servers: localhost:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh, health
+
+community:
+  chat:
+    allowed-origins: http://localhost:5173, http://localhost:5174
+  # 비회원 연락처 암호화 키 (개발용 고정값, 운영은 환경 변수 COMMUNITY_CRYPTO_KEY)
+  crypto:
+    key: ${COMMUNITY_CRYPTO_KEY:ZGV2LW9ubHkta2V5LWRvLW5vdC11c2UtaW4tcHJvZDE=}
