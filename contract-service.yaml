@@ -12,9 +12,15 @@ spring:
           target: ${ROOM_GRPC_TARGET:localhost:8083}
           default:
             deadline: 3s           # 응답 제한 시간. 넘기면 DEADLINE_EXCEEDED → 503
-        document:                  # 문서 서비스 — 계약서 양식 조회. target은 환경별 파일에서
+        document:
+          target: ${DOCUMENT_GRPC_TARGET:localhost:8082}    # 문서 서비스 — 계약서 양식 조회. target은 환경별 파일에서
           default:
             deadline: 3s
+        user:
+          target: ${USER_GRPC_TARGET:localhost:8081}
+          default:
+            deadline: 3s
+        
 
 auth:
   access-token-key-id: es256-demo        # user-service와 동일해야 검증 가능

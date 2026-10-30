@@ -24,7 +24,9 @@ spring:
         room:
           target: localhost:8083       # ⚠ HTTP 포트가 아니라 gRPC 서버 포트인지 확인
         document:
-          target: localhost:8082       # ⚠ 위와 같음
+          target: localhost:8087       # ⚠ 위와 같음
+        user:
+          target: localhost:8082
   data:
     redis:                       # 결제 중복 클릭 잠금
       host: localhost
