@@ -12,11 +12,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+# MongoDB (채팅 메시지)
+  mongodb:
+    uri: mongodb://localhost:27017/community_service
   data:
-    # MongoDB (채팅 메시지)
-    mongodb:
-      uri: mongodb://localhost:27017/community_service
     # Redis (조회수 · 안 읽은 수 · 횟수 제한 · FAQ 캐시 · 제재 캐시)
     redis:
       host: localhost

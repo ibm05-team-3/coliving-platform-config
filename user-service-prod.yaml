@@ -44,6 +44,9 @@ spring:
             user-name-attribute: response
 
 app:
+  # users.email, name, phone, address Envelope Encryption KEK. 기본값 없이 환경 변수만 사용한다.
+  crypto:
+    key: ${USER_CRYPTO_KEY}
   frontend:
     url: ${FRONTEND_URL}
   cookie:
