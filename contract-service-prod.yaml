@@ -25,6 +25,8 @@ spring:
           target: ${ROOM_GRPC_TARGET}         # 예: dns:///매물서비스이름:gRPC포트
         document:
           target: ${DOCUMENT_GRPC_TARGET}
+        user:
+          target: ${USER_GRPC_TARGET}         # 예: dns:///user-service:9082
   data:
     redis:
       host: ${REDIS_HOST}
