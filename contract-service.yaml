@@ -29,5 +29,7 @@ auth:
 app:
   kafka:
     topics:
-      payment-completed: contract.payment.completed   # kafka호출 이름 받는쪽과 맞춰야함
+      status-changed: contract.status-changed     # dashboard
+      payment-completed: payment.completed        # dashboard (기존 contract.payment.completed는 안 맞음)
+      contract-completed: contract.completed      # community
  
