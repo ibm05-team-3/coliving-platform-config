@@ -1,2 +1,14 @@
 # 공통 기본 설정 (모든 환경)
 # 필요 시 여기에 공통 설정 추가
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
