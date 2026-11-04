@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-# MongoDB (채팅 메시지)
+  # MongoDB (채팅 메시지)
   mongodb:
     uri: mongodb://localhost:27017/community_service
   data:
@@ -24,6 +24,17 @@ spring:
   # Kafka (계약 완료 · 입주 상태 변경 · 회원 탈퇴 수신)
   kafka:
     bootstrap-servers: localhost:9092
+
+  # gRPC 클라이언트 — 다른 서비스 gRPC 서버 주소
+  grpc:
+    client:
+      channel:
+        user:
+          target: localhost:9082     # user-service
+        contract:
+          target: localhost:9089     # contract-service
+        property:
+          target: localhost:9083     # property-service
 
 management:
   endpoints:
@@ -37,3 +48,8 @@ community:
   # 비회원 연락처 암호화 키 (개발용 고정값, 운영은 환경 변수 COMMUNITY_CRYPTO_KEY)
   crypto:
     key: ${COMMUNITY_CRYPTO_KEY:ZGV2LW9ubHkta2V5LWRvLW5vdC11c2UtaW4tcHJvZDE=}
+  # 다른 서비스 연동 방식 (grpc / fake) — 그 서비스 없이 실행할 때만 fake
+  clients:
+    user: grpc
+    contract: grpc
+    property: grpc
