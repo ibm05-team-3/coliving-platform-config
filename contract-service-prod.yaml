@@ -1,0 +1,49 @@
+# contract-service 운영 환경
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+  grpc:
+    client:
+      channel:
+        room:
+          target: ${ROOM_GRPC_TARGET}         # 예: dns:///매물서비스이름:gRPC포트
+        document:
+          target: ${DOCUMENT_GRPC_TARGET}
+        user:
+          target: ${USER_GRPC_TARGET}         # 예: dns:///user-service:9082
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+
+app:
+  frontend:
+    url: ${FRONTEND_URL}
+  kakaopay:
+    secret-key: ${KAKAOPAY_SECRET_KEY}
+    cid: ${KAKAOPAY_CID}
+    approval-url: ${app.frontend.url}/contract/pay/approve   # 서버가 ?applicationNo=..&orderId=.. 붙임
+    cancel-url: ${app.frontend.url}/contract/pay?result=cancel
+    fail-url: ${app.frontend.url}/contract/pay?result=fail
+  portone:
+    store-id: ${PORTONE_STORE_ID}
+    api-secret: ${PORTONE_API_SECRET}
+
+auth:
+  access-token-public: ${JWT_PUBLIC_KEY}

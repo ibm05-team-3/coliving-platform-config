@@ -1,0 +1,55 @@
+# contract-service 개발 환경 전용
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/contract_service
+    username: postgres
+    password: admin
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer   
+      acks: all
+  grpc:
+    client:
+      channel:
+        room:
+          target: localhost:9083       # ⚠ HTTP 포트가 아니라 gRPC 서버 포트인지 확인
+        document:
+          target: localhost:9087       # ⚠ 위와 같음
+        user:
+          target: localhost:9082
+        dashboard:
+          target: localhost:9086
+        reservation:
+          target: localhost:9085
+        community:
+          target: localhost:9084
+  data:
+    redis:                       # 결제 중복 클릭 잠금
+      host: localhost
+      port: 6379
+
+app:
+  frontend:
+    url: http://localhost:5173
+  kakaopay:
+    secret-key: ${KAKAOPAY_SECRET_KEY}
+    cid: TC0ONETIME                       # 카카오페이 테스트용 가맹점 코드
+    approval-url: ${app.frontend.url}/contract/pay/approve   # 서버가 ?applicationNo=..&orderId=.. 붙임
+    cancel-url: ${app.frontend.url}/contract/pay?result=cancel
+    fail-url: ${app.frontend.url}/contract/pay?result=fail
+  portone:
+    store-id: ${PORTONE_STORE_ID}
+    api-secret: ${PORTONE_API_SECRET}
+
+auth:
+  access-token-public: ${JWT_SECRET:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}

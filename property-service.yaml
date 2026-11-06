@@ -1,0 +1,7 @@
+# property-service 공통 설정
+spring:
+  application:
+    name: property-service
+  grpc:
+    server:
+      port: 9083
