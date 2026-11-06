@@ -1,0 +1,15 @@
+# dashboard-service 운영 환경
+spring:
+  grpc:
+    client:
+      channel:
+        property:
+          target: ${PROPERTY_GRPC_TARGET}     # 예: dns:///property-service:9083
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+monitoring:
+  prometheus:
+    url: ${PROMETHEUS_URL}
