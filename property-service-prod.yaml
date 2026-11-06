@@ -1,0 +1,18 @@
+# property-service 운영 환경
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  grpc:
+    client:
+      channel:
+        contract:
+          target: ${CONTRACT_GRPC_TARGET}     # 예: dns:///contract-service:9089

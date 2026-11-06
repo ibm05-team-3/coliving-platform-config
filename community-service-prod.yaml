@@ -1,0 +1,48 @@
+# community-service 운영 환경
+# PostgreSQL은 pgvector 확장 인스턴스. 스키마는 직접 생성 (ddl-auto는 community-service.yaml의 none)
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  mongodb:
+    uri: ${MONGODB_URI}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+  grpc:
+    client:
+      channel:
+        user:
+          target: ${USER_GRPC_TARGET}         # 예: dns:///user-service:9082
+        contract:
+          target: ${CONTRACT_GRPC_TARGET}     # 예: dns:///contract-service:9089
+        property:
+          target: ${PROPERTY_GRPC_TARGET}     # 예: dns:///property-service:9083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh, health, prometheus
+
+community:
+  chat:
+    # 쉼표로 구분. 예: https://user.example.com,https://admin.example.com
+    allowed-origins: ${COMMUNITY_CHAT_ALLOWED_ORIGINS}
+  crypto:
+    key: ${COMMUNITY_CRYPTO_KEY}
+  clients:
+    user: grpc
+    contract: grpc
+    property: grpc
