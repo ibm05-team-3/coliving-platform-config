@@ -21,16 +21,8 @@ spring:
   grpc:
     client:
       channel:
-        room:
-          target: ${ROOM_GRPC_TARGET}         # 예: dns:///매물서비스이름:gRPC포트
         document:
-          target: ${DOCUMENT_GRPC_TARGET}
-        user:
-          target: ${USER_GRPC_TARGET}         # 예: dns:///user-service:9082
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT:6379}
+          target: ${DOCUMENT_GRPC_TARGET}     # 예: dns:///document-service:9087
 
 app:
   frontend:
@@ -44,6 +36,3 @@ app:
   portone:
     store-id: ${PORTONE_STORE_ID}
     api-secret: ${PORTONE_API_SECRET}
-
-auth:
-  access-token-public: ${JWT_PUBLIC_KEY}
