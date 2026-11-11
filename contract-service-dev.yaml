@@ -21,22 +21,8 @@ spring:
   grpc:
     client:
       channel:
-        room:
-          target: localhost:9083       # ⚠ HTTP 포트가 아니라 gRPC 서버 포트인지 확인
         document:
-          target: localhost:9087       # ⚠ 위와 같음
-        user:
-          target: localhost:9082
-        dashboard:
-          target: localhost:9086
-        reservation:
-          target: localhost:9085
-        community:
-          target: localhost:9084
-  data:
-    redis:                       # 결제 중복 클릭 잠금
-      host: localhost
-      port: 6379
+          target: localhost:9087       # ⚠ HTTP 포트가 아니라 gRPC 서버 포트인지 확인
 
 app:
   frontend:
@@ -50,6 +36,3 @@ app:
   portone:
     store-id: ${PORTONE_STORE_ID}
     api-secret: ${PORTONE_API_SECRET}
-
-auth:
-  access-token-public: ${JWT_SECRET:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}
